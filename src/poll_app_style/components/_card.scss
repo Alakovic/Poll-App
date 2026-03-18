@@ -1,2 +1,64 @@
 @use '../abstracts/variables' as v;
 
+.card {
+  background-color: v.$highlight_card-bg;
+  color: v.$text-dark;
+  width: 300px;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0 20px 0 0;
+  padding: 25px;
+
+  &:hover {
+    background-color: v.$highlight_card-bg-hover;
+    cursor: pointer;
+    >.card__expiration {
+      background-color: v.$button-primary_hover;
+    }
+  }
+
+  &--board {
+    background-color: v.$survey_card-bg;
+    color: v.$text-white;
+    width: 100%;
+    min-height: 150px;
+    padding: 15px;
+    border-radius: 8px 80px 8px 8px;
+      &:hover {
+        background-color: v.$survey_card-bg-hover;
+      }
+  }
+
+  &__category {
+    font-size: 20px;
+    &--board {
+      color: v.$text-orange;
+      font-size: 18px;
+    }
+  }
+
+  &__title {
+    font-size: 35px;
+    font-weight: bold;
+    padding: 10px 0 40px 0;
+    line-height: 0.95;
+
+    &--board {
+      font-size: 25px;
+      padding: 10px 0 20px 0;
+    }
+  }
+
+  &__expiration {
+    background-color: v.$button-primary;
+    border-radius: 0 20px 0 0;
+    width: fit-content;
+    padding: 5px 10px;
+    margin-top: auto;
+    &--board {
+      align-self: flex-end;
+      color: v.$text-dark;
+    }
+  }
+}

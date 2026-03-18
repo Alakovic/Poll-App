@@ -1,0 +1,23 @@
+@use '../abstracts/variables' as v;
+
+.overview {
+  &__filters {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__filterByStatus {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  &__board {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding-top: 30px;
+  }
+}

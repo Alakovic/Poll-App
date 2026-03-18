@@ -17,9 +17,21 @@ export class SurveyService {
     {
       title: "Let's plan the next team event together",
       description: "We want to make sure that everyone has a great time at our next team event. Please take a moment to share your preferences and ideas for activities, venues, and dates. Your input will help us create an unforgettable experience for everyone!",
-      category: "Team Activities" as SurveyCategory,
-      endDate: new Date("2026-03-18")
-    }
+      category: "Team activities" as SurveyCategory,
+      endDate: new Date("2026-03-19")
+    },
+    {
+      title: "Fit & wellness survey",
+      description: "We want to make sure that everyone has a great time at our next team event. Please take a moment to share your preferences and ideas for activities, venues, and dates. Your input will help us create an unforgettable experience for everyone!",
+      category: "Health & Wellness" as SurveyCategory,
+      endDate: new Date("2026-03-22")
+    },
+    {
+      title: "Gaming habits and favorite games",
+      description: "We want to make sure that everyone has a great time at our next team event. Please take a moment to share your preferences and ideas for activities, venues, and dates. Your input will help us create an unforgettable experience for everyone!",
+      category: "Gaming & Entertainment" as SurveyCategory,
+      endDate: new Date("2026-03-25")
+    },
   ];
 
   getDaysLeft(endDate: Date): number {

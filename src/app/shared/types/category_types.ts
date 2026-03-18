@@ -1,5 +1,5 @@
 export type SurveyCategory =
-  | 'Team Activities'
+  | 'Team activities'
   | 'Health & Wellness'
   | 'Gaming & Entertainment'
   | 'Education & Learning'

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { EndingSoon } from "../ending-soon/ending-soon";
+import { SurveyDashboard } from '../survey-dashboard/survey-dashboard';
 
 @Component({
   selector: 'app-landing-page',
   standalone: true,
-  imports: [EndingSoon],
+  imports: [SurveyDashboard],
   templateUrl: './landing-page.html',
   styleUrls: ['./landing-page.scss'],
 })

@@ -1,15 +1,16 @@
 import { Component,inject } from '@angular/core';
 import { SurveyService } from '../../services/survey_service';
 import { SurveyCard } from '../survey-card/survey-card';
+import { SurveyOverview } from '../survey-overview/survey-overview';
 
 @Component({
-  selector: 'app-ending-soon',
+  selector: 'app-survey-dashboard',
   standalone: true,
-  imports: [SurveyCard],
-  templateUrl: './ending-soon.html',
-  styleUrls: ['./ending-soon.scss'],
+  imports: [SurveyCard, SurveyOverview],
+  templateUrl: './survey-dashboard.html',
+  styleUrls: ['./survey-dashboard.scss'],
 })
-export class EndingSoon {
+export class SurveyDashboard {
   surveyService = inject(SurveyService);
 
   surveys = this.surveyService.surveyList;

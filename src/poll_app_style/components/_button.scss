@@ -9,6 +9,10 @@
   align-items: center;
   justify-content: center;
 
+  &__icon {
+    fill: v.$text-white;
+  }
+
   &--primary {
     background-color: v.$button-primary;
   }
@@ -19,6 +23,37 @@
 
   &--hidden {
     display: none;
+  }
+
+  &--filter {
+    border-radius: 20px;
+    font-size: 16px;
+  }
+
+  &--active {
+    background-color: v.$button-filter_active;
+  }
+
+  &--inactive {
+    background-color: v.$button-primary_inactive;
+  }
+
+  &--inactive:hover {
+    background-color: v.$button-filter_hover;
+  }
+
+  &--dropdown {
+    gap: 10px;
+    background-color: transparent;
+    color: v.$text-white;
+    font-size: 16px;
+  }
+
+  &--dropdown:hover {
+    background-color:v.$button-tertial;
+    > .btn__icon {
+      fill: v.$text-orange;
+    }
   }
 
   &:hover {
