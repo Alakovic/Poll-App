@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { Header } from './layout/header/header';
+
 
 @Component({
   selector: 'app-root',
@@ -11,4 +12,7 @@ import { Header } from './layout/header/header';
 })
 export class App {
   protected readonly title = signal('poll-app');
+
+  constructor(public router:Router) {}
+
 }

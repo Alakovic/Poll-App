@@ -1,0 +1,13 @@
+@use '../abstracts/variables' as v;
+
+.theme {
+  background-color: v.$dark-bg;
+
+  &--light {
+    background-color: v.$light-bg;
+  }
+
+ &--survey {
+    padding-block:80px ;
+  }
+}

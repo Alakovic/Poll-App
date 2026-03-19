@@ -1,0 +1,120 @@
+@use '../abstracts/variables' as v;
+
+.survey-form {
+  width: 100%;
+  background: v.$dark-bg;
+  padding: 80px;
+  border-radius: 12px 100px 12px 12px;
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-block: 20px;
+  }
+
+  &__draft {
+    background-color: v.$button-primary;
+    border-radius: 0 15px 0 0;
+    width: fit-content;
+    padding: 5px 15px 5px 5px;
+    font-weight: bold;
+  }
+
+  &__title {
+    font-size: 50px;
+    font-weight: bold;
+    color: v.$text-orange-darker;
+  }
+
+  &__category {
+    color: v.$text-orange;
+    padding-left: 15px;
+  }
+
+  &__form {
+    background-color: v.$form-bg;
+    border-radius: 12px 100px 12px 12px;
+    padding: 40px;
+  }
+
+  &__fieldset {
+    border: none;
+    width: 100%;
+
+    &--hori {
+      display: grid;
+      grid-template-columns: max-content max-content 1fr;
+      grid-template-areas:
+        'name name description'
+        'date category description';
+      gap: 20px 70px;
+    }
+  }
+  &__field {
+    display: flex;
+    flex-direction: column;
+    > label {
+      font-size: 18px;
+      font-weight: bold;
+      color: v.$text-white;
+    }
+
+    &--name {
+      grid-area: name;
+    }
+    &--date {
+      grid-area: date;
+    }
+    &--category {
+      grid-area: category;
+    }
+    &--description {
+      grid-area: description;
+    }
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    > input,
+    > textarea {
+      flex: 1;
+      border: none;
+      border-radius: 8px 25px 8px 8px;
+      padding: 10px;
+      font-size: 18px;
+      &:focus {
+        outline: none;
+        border: none;
+        background-color: v.$input-focus;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    > textarea {
+      resize: none;
+      height: 100%;
+    }
+  }
+
+  &__delete {
+    width: 30px;
+    height: 30px;
+    background-image: url('/assets/img/delete.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: 0.3s;
+    margin-top: 5px;
+
+    &:hover {
+      background-image: url('/assets/img/delete_hover.svg');
+      cursor: pointer;
+    }
+  }
+}

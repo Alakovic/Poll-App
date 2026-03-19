@@ -1,9 +1,5 @@
 @use '../abstracts/variables' as v;
 
-section {
-  background-color: v.$dark-bg;
-}
-
 .landing-page {
   min-height: 100vh;
   display: flex;

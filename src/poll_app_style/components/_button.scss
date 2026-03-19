@@ -47,13 +47,20 @@
     background-color: transparent;
     color: v.$text-white;
     font-size: 16px;
+    font-weight: bold;
   }
 
   &--dropdown:hover {
-    background-color:v.$button-tertial;
+    background-color: v.$button-tertial;
     > .btn__icon {
       fill: v.$text-orange;
     }
+  }
+
+  &--close {
+    background-color: v.$button-brown;
+    font-size: 20px;
+    color: v.$text-white;
   }
 
   &:hover {
@@ -64,6 +71,7 @@
 $btn-icons: (
   'new': 'add_circle_black',
   'publish': 'check',
+  'close': 'close',
 );
 
 @each $key, $icon in $btn-icons {

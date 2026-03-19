@@ -2,6 +2,7 @@
 @use './base/fonts' ;
 @use './base/reset' ;
 @use './base/typography';
+@use './themes/theme';
 @use './layout/container';
 @use './pages/landing';
 @use './layout/header';
@@ -9,3 +10,4 @@
 @use './pages/dashboard';
 @use './components/card';
 @use './pages/overview';
+@use './pages/form';
