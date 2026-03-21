@@ -8,24 +8,24 @@
         <h2 class="survey-form__title">Create new survey</h2>
         <button routerLink="" class="btn btn--close">Cancel</button>
       </div>
-      <form class="survey-form__form">
+      <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()" class="survey-form__form">
         <fieldset class="survey-form__fieldset survey-form__fieldset--hori">
           <div class="survey-form__field survey-form__field--name">
             <label for="survey-name">Survey Name</label>
             <div class="survey-form__wrapper">
-              <input type="text" id="survey-name" name="survey-name" />
+              <input type="text" id="survey-name" name="survey-name" formControlName="name" />
               <div class="survey-form__delete"></div>
             </div>
           </div>
           <div class="survey-form__field survey-form__field--date">
             <label for="survey-date">Set end date (optional)</label>
             <div class="survey-form__wrapper">
-              <input type="text" id="survey-date" name="survey-date" />
+              <input type="text" id="survey-date" name="survey-date" formControlName="date" />
               <div class="survey-form__delete"></div>
             </div>
           </div>
           <div class="survey-form__field survey-form__field--category">
-            <button class="btn btn--dropdown">
+            <button type="'button'" class="btn btn--dropdown">
               <p>Choose category</p>
               <svg
                 class="btn__icon"
@@ -40,7 +40,7 @@
                 />
               </svg>
             </button>
-            <span class="survey-form__category">Sport</span>
+            <span class="survey-form__category"></span>
           </div>
           <div class="survey-form__field survey-form__field--description">
             <label for="description">Describing text (optional)</label>
@@ -55,14 +55,22 @@
             </div>
           </div>
         </fieldset>
-        <div class="survey-form__questions">
-          <app-question-form></app-question-form>
-          <button class="btn btn--add-question">
+        <div class="survey-form__questions" formArrayName="questions">
+          @for (q of questionsArray().controls; track $index; let i = $index) {
+            <div [formGroupName]="i">
+              <app-question-form
+                [group]="q"
+                [index]="i"
+                (remove)="removeQuestion($event)"
+              ></app-question-form>
+            </div>
+          }
+          <button type="button" class="btn btn--add-question" (click)="addQuestion()">
             Add next question<img src="./assets/img/add_circle.svg" />
           </button>
         </div>
+        <button type="submit" class="btn btn--publish">Publish</button>
       </form>
-      <button class="btn btn--publish">Publish</button>
     </div>
   </div>
 </section>

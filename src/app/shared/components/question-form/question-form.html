@@ -1,37 +1,38 @@
-<div class="survey-form__wrapper survey-form__wrapper--question">
-  <label class="survey-form__question-num" for="question">1.Question </label>
-  <div class="survey-form__delete survey-form__delete--question"></div>
+<div [formGroup]="group">
+ <div class="survey-form__wrapper survey-form__wrapper--question">
+  <label class="survey-form__question-num" [for]="'question-' + index">{{ surveyService.getNumber(index) }}. Question </label>
+  <div class="survey-form__delete survey-form__delete--question" (click)="removeQuestion()"></div>
 </div>
-<input type="text" id="question" name="question" class="survey-form__question" />
+<input type="text" [id]="'question-' + index" [name]="'question-' + index" class="survey-form__question"  formControlName="title" />
 <div class="survey-form__answers-settings">
   <span class="survey-form__answers-title">Answers</span>
   <label class="survey-form__answers-control">
     <input
       type="checkbox"
       class="survey-form__checkbox"
-      id="allowMultipleAnswers"
-      name="allowMultipleAnswers"
-    /><!-- formControlName="allowMultipleAnswers" -->
+      [id]="'allowMultipleAnswers-' + index"
+      [name]="'allowMultipleAnswers-' + index"
+      formControlName="allowMultiple"
+    />
     <span class="survey-form__custom-checkbox"></span>
     <p>Allow multiple answers</p>
   </label>
 </div>
-<div class="survey-form__answers">
-  <div class="survey-form__answer">
-    <span>A.</span>
-    <div class="survey-form__wrapper">
-      <input type="text" class="survey-form__answer-input" />
-      <div class="survey-form__delete survey-form__delete--answer"></div>
+<div class="survey-form__answers" formArrayName="answers">
+  @for (a of answersArray().controls; track $index; let i = $index) {
+    <div class="survey-form__answer">
+      <span>{{ surveyService.getLetter(i) }}.</span>
+      <div class="survey-form__wrapper">
+        <input [id]="'answer-' + index + '-' + i " type="text" class="survey-form__answer-input" [formControlName]="i" />
+        <div class="survey-form__delete survey-form__delete--answer" (click)="removeAnswer(i)"></div>
+      </div>
     </div>
-  </div>
-  <div class="survey-form__answer">
-    <span class="survey-form__answer-label">B.</span>
-    <div class="survey-form__wrapper">
-      <input type="text" class="survey-form__answer-input" />
-      <div class="survey-form__delete survey-form__delete--answer"></div>
-    </div>
-  </div>
+  }
 
-  <button class="btn btn--add">Add answer<img src="./assets/img/add_circle.svg" ></button>
-
+  <button type="button" class="btn btn--add" (click)="addAnswer()">
+    Add answer<img src="./assets/img/add_circle.svg" />
+  </button>
 </div>
+</div>
+
+  

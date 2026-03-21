@@ -9,6 +9,10 @@
   align-items: center;
   justify-content: center;
 
+  &:hover {
+    cursor: pointer;
+  }
+
   &__icon {
     fill: v.$text-white;
   }
@@ -61,7 +65,7 @@
     background-color: v.$button-brown;
     font-size: 20px;
     color: v.$text-white;
-    align-self: flex-start;
+    align-self: center;
     justify-self: self-end;
     &:hover {
       cursor: pointer;
@@ -80,6 +84,7 @@
     color: v.$text-white;
     &:hover {
       background-color: v.$button-tertial;
+      cursor: pointer;
     }
   }
 
@@ -91,6 +96,7 @@
     gap: 10px;
     font-size: 18px;
     color: v.$text-white;
+   
 
     &:hover {
       cursor: pointer;
@@ -113,11 +119,13 @@
       background-color: v.$button-primary_hover;
     }
 
-     &:hover::after {
+    &:hover::after {
       width: 20px !important;
       height: 20px !important;
     }
   }
+
+
 }
 
 $btn-icons: (

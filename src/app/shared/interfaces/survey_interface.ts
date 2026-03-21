@@ -7,3 +7,9 @@ export interface Survey {
     category: SurveyCategory;
     endDate: Date;
 }
+
+export interface Question {
+    title: string;
+    answers: string[];
+    allowMultiple: boolean;
+}
