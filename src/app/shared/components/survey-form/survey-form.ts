@@ -3,6 +3,8 @@ import { Router, RouterLink } from '@angular/router';
 import { QuestionForm } from '../question-form/question-form';
 import { SurveyService } from '../../services/survey_service';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { SurveyCategory } from '../../types/category_types';
+import { SurveyModel } from '../../models/surveymodel';
 
 @Component({
   selector: 'app-survey-form',
@@ -14,20 +16,33 @@ import { FormControl, FormGroup, Validators, ReactiveFormsModule, FormArray } fr
 export class SurveyForm {
   router = inject(Router);
   surveyService = inject(SurveyService);
+  categories = this.surveyService.categories;
+  open: boolean = false;
+  categorySelected: boolean = false;
 
   ngOnInit() {
     this.addQuestion();
   }
 
+  categoryValidator = () => {
+    return this.categorySelected ? null : { required: true };
+  };
+
   surveyForm = new FormGroup({
-    name: new FormControl('', {
+    title: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required, Validators.minLength(3)],
     }),
-    date: new FormControl('', { nonNullable: true }),
+    endDate: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/)],
+    }),
     description: new FormControl('', { nonNullable: true }),
-    category: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     questions: new FormArray<FormGroup>([]),
+    category: new FormControl<SurveyCategory>(this.categories[0], {
+      nonNullable: true,
+      validators: [this.categoryValidator],
+    }),
   });
 
   questionsArray(): FormArray<FormGroup> {
@@ -45,6 +60,16 @@ export class SurveyForm {
     });
   }
 
+  getErrorMessage(controlName: string): string | null {
+    const control = this.surveyForm.get(controlName);
+    if (!control || !control.touched || !control.invalid) return null;
+    if (control.hasError('required')) return 'This field is required.';
+    if (control.hasError('minlength'))
+      return `Minimum length is ${control.getError('minlength')?.requiredLength}.`;
+    if (control.hasError('pattern')) return 'Date must be in DD-MM-YYYY format.';
+    return null;
+  }
+
   addQuestion() {
     this.questionsArray().push(this.createQuestionGroup());
   }
@@ -55,12 +80,24 @@ export class SurveyForm {
     }
   }
 
- 
+  selectCategory(cat: SurveyCategory) {
+    let control = this.surveyForm.get('category');
+    if (control) {
+      control.setValue(cat);
+      control.markAsTouched();
+      this.categorySelected = true;
+      control.updateValueAndValidity();
+    }
+    this.open = false;
+  }
 
   onSubmit() {
     if (this.surveyForm.valid) {
+      let survey = new SurveyModel(this.surveyForm.value);
+      this.surveyService.addSurvey(survey);
       this.router.navigate(['']);
     } else {
+      this.surveyForm.markAllAsTouched();
       console.log('Survey not completed ');
     }
   }

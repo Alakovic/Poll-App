@@ -1,4 +1,4 @@
-import { Component, inject, Input, Output,EventEmitter } from '@angular/core';
+import { Component, inject, Input, Output, EventEmitter } from '@angular/core';
 import { SurveyService } from '../../services/survey_service';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 
@@ -17,6 +17,7 @@ export class QuestionForm {
   maxAnswers = 6;
   minAnswers = 2;
 
+  
   answersArray() {
     return this.group.get('answers') as FormArray;
   }
@@ -29,7 +30,14 @@ export class QuestionForm {
     }
   }
 
-  removeAnswer( answerIndex: number) {
+  getError(controlName: string): string | null {
+    const control = this.group.get(controlName);
+    if (!control || !control.touched || !control.invalid) return null;
+    if (control.hasError('required')) return 'Required';
+    return null;
+  }
+
+  removeAnswer(answerIndex: number) {
     if (this.answersArray().length > this.minAnswers) {
       this.answersArray().removeAt(answerIndex);
     }

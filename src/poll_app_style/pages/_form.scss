@@ -68,6 +68,7 @@
     }
     &--category {
       grid-area: category;
+      position: relative;
     }
     &--description {
       grid-area: description;
@@ -235,5 +236,41 @@
       font-weight: bold;
       color: v.$text-white;
     }    
+  }
+
+  &__dropdown {
+    position: absolute;
+    background-color: v.$highlight_card-bg;
+    border-radius: 8px ;
+    padding: 10px;
+    margin-top: 5px;
+    width: fit-content;
+    z-index: 10;
+    top: 30px;
+
+    > li {
+      list-style: none;
+      padding: 5px 10px;
+      border-radius: 8px ;
+
+      &:hover {
+        background-color: v.$highlight_card-bg-hover;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__error {
+    color: red;
+    font-size: 14px;
+    padding-top: 5px;
+    padding-left: 10px;
+    &--category {
+      padding-left: 40px;
+    }
+
+    &--answers {
+      padding-left: 30px;
+    }
   }
 }

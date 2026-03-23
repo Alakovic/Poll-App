@@ -13,20 +13,26 @@
           <div class="survey-form__field survey-form__field--name">
             <label for="survey-name">Survey Name</label>
             <div class="survey-form__wrapper">
-              <input type="text" id="survey-name" name="survey-name" formControlName="name" />
+              <input type="text" id="survey-name" name="survey-name" formControlName="title" />
               <div class="survey-form__delete"></div>
             </div>
+            @if(getErrorMessage('title')) {
+            <div class="survey-form__error">{{ getErrorMessage('title') }}</div>
+            }
           </div>
           <div class="survey-form__field survey-form__field--date">
             <label for="survey-date">Set end date (optional)</label>
             <div class="survey-form__wrapper">
-              <input type="text" id="survey-date" name="survey-date" formControlName="date" />
+              <input type="text" id="survey-date" name="survey-date" formControlName="endDate" />
               <div class="survey-form__delete"></div>
             </div>
+             @if(getErrorMessage('endDate')) {
+            <div class="survey-form__error">{{ getErrorMessage('endDate') }}</div>
+            }
           </div>
           <div class="survey-form__field survey-form__field--category">
-            <button type="'button'" class="btn btn--dropdown">
-              <p>Choose category</p>
+            <button type="button" class="btn btn--dropdown" (click)="open = !open">
+              <p> Choose category</p>
               <svg
                 class="btn__icon"
                 width="15"
@@ -40,7 +46,19 @@
                 />
               </svg>
             </button>
-            <span class="survey-form__category"></span>
+            <span class="survey-form__category"> {{ categorySelected ? surveyForm.value.category : '' }} </span>
+            @if (open) {
+              <ul class="survey-form__dropdown">
+                @for (cat of categories; track $index) {
+                  <li (click)="selectCategory(cat)">
+                    {{ cat }}
+                  </li>
+                }
+              </ul>
+            }
+             @if(getErrorMessage('category')) {
+            <div class="survey-form__error survey-form__error--category">{{ getErrorMessage('category') }}</div>
+            }
           </div>
           <div class="survey-form__field survey-form__field--description">
             <label for="description">Describing text (optional)</label>
