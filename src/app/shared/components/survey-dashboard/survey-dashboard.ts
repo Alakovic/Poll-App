@@ -13,5 +13,5 @@ import { SurveyOverview } from '../survey-overview/survey-overview';
 export class SurveyDashboard {
   surveyService = inject(SurveyService);
 
-  surveys = this.surveyService.surveyList;
+  surveys = this.surveyService.endingSoonSurveys;
 }

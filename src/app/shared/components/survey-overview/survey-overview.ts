@@ -1,6 +1,7 @@
-import { Component , inject} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SurveyService } from '../../services/survey_service';
 import { SurveyCardBoard } from '../survey-card-board/survey-card-board';
+import { SurveyCategory } from '../../types/category_types';
 
 @Component({
   selector: 'app-survey-overview',
@@ -9,8 +10,15 @@ import { SurveyCardBoard } from '../survey-card-board/survey-card-board';
   styleUrl: './survey-overview.scss',
 })
 export class SurveyOverview {
-
   surveyService = inject(SurveyService);
-
   surveys = this.surveyService.surveyList;
+  categories = this.surveyService.categories;
+
+  open: boolean = false;
+  selectedCategory: SurveyCategory | null = null;
+
+  selectCategory(cat: SurveyCategory | null) {
+    this.surveyService.selectedCategory.set(cat);
+    this.open = false;
+  }
 }

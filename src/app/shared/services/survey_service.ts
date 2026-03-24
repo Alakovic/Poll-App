@@ -1,7 +1,7 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { Survey } from '../interfaces/survey_interface';
 import { SurveyCategory } from '../types/category_types';
-import { createClient } from '@supabase/supabase-js';
+import { createClient, RealtimeChannel } from '@supabase/supabase-js';
 import { SurveyModel } from '../models/surveymodel';
 import { QuestionModel } from '../models/questionmodel';
 
@@ -24,6 +24,9 @@ export class SurveyService {
     questions: [],
   });
 
+  selectedCategory = signal<SurveyCategory | null>(null);
+
+
   categories: SurveyCategory[] = [
     'Team activities',
     'Health & Wellness',
@@ -33,14 +36,18 @@ export class SurveyService {
     'Technology & Innovation',
   ];
 
-  surveyListInsertChannel;
-
-  surveyDetailInsertChannel;
-
-  answersInsertChannel;
+  surveyListInsertChannel!: RealtimeChannel;
+  surveyDetailInsertChannel!: RealtimeChannel;
+  answersInsertChannel!: RealtimeChannel;
 
   constructor() {
     this.getAllSurveys();
+    this.surveyInsertListener();
+    this.questionInsertListener();
+    this.answerInsertListener();
+  }
+
+  surveyInsertListener() {
     this.surveyListInsertChannel = this.supabase
       .channel('surveys-insert-channel')
       .on(
@@ -49,11 +56,12 @@ export class SurveyService {
         (payload) => {
           let newSurvey = new SurveyModel(payload.new);
           this.surveyList.update((surveys) => [...surveys, newSurvey]);
-          console.log('Change received!', payload);
         },
       )
       .subscribe();
+  }
 
+  questionInsertListener() {
     this.surveyDetailInsertChannel = this.supabase
       .channel('questions-insert-channel')
       .on(
@@ -61,7 +69,6 @@ export class SurveyService {
         { event: 'INSERT', schema: 'public', table: 'questions' },
         (payload) => {
           let newQuestion = new QuestionModel(payload.new);
-
           this.surveyDetail.update((survey) => {
             if (survey.id === payload.new['survey_id']) {
               return {
@@ -71,12 +78,13 @@ export class SurveyService {
             }
             return survey;
           });
-          console.log('Change received!', payload);
         },
       )
       .subscribe();
+  }
 
-      this.answersInsertChannel = this.supabase
+  answerInsertListener() {
+    this.answersInsertChannel = this.supabase
       .channel('answers-insert-channel')
       .on(
         'postgres_changes',
@@ -84,7 +92,6 @@ export class SurveyService {
         (payload) => {
           let questionId = payload.new['question_id'];
           let answerText = payload.new['text'];
-
           this.surveyDetail.update((survey) => {
             return {
               ...survey,
@@ -99,7 +106,6 @@ export class SurveyService {
               }),
             };
           });
-          console.log('Change received!', payload);
         },
       )
       .subscribe();
@@ -110,6 +116,20 @@ export class SurveyService {
     this.supabase.removeChannel(this.surveyDetailInsertChannel);
     this.supabase.removeChannel(this.answersInsertChannel);
   }
+
+  endingSoonSurveys = computed(() => {
+   return this.surveyList().filter((s) => {
+      if(!s.endDate) return false;
+      let daysLeft = this.getDaysLeft(s.endDate);
+      return daysLeft <= 5 && daysLeft >= 0;
+    });
+  });
+
+  filteredSurveys = computed(() => {
+    let cat = this.selectedCategory();
+    if (!cat) return this.surveyList();
+    return this.surveyList().filter((s) => s.category === cat);
+  });
 
   getDaysLeft(endDate: Date | string | undefined): number {
     if (!endDate) return 0;
@@ -142,12 +162,10 @@ export class SurveyService {
       .insert(survey_data)
       .select()
       .single();
-
     if (error) {
-      console.log(error);
+      console.error(error);
       return;
     }
-
     let surveyId = data.id;
     for (let question of survey.questions) {
       await this.addQuestion(surveyId, new QuestionModel(question));
@@ -161,9 +179,8 @@ export class SurveyService {
       .insert(question_data)
       .select()
       .single();
-
     if (error) {
-      console.log(error);
+      console.error(error);
       return;
     }
     let questionId = data.id;
@@ -178,9 +195,8 @@ export class SurveyService {
       text: text,
       votesCount: 0,
     });
-
     if (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 }
