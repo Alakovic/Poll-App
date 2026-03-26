@@ -29,6 +29,14 @@
     display: none;
   }
 
+  &--create {
+    display: flex;
+    background-color: v.$button-primary;
+    &:hover {
+      background-color: v.$button-primary_hover;
+    }
+  }
+
   &--filter {
     border-radius: 20px;
     font-size: 16px;
@@ -96,7 +104,6 @@
     gap: 10px;
     font-size: 18px;
     color: v.$text-white;
-   
 
     &:hover {
       cursor: pointer;
@@ -124,14 +131,13 @@
       height: 20px !important;
     }
   }
-
-
 }
 
 $btn-icons: (
   'new': 'add_circle_black',
   'publish': 'check',
   'close': 'close',
+  'create': 'add_circle_black',
 );
 
 @each $key, $icon in $btn-icons {

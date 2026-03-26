@@ -10,4 +10,11 @@ header {
   align-items: center;
   padding: 25px 0;
 
+  &__logo {
+    cursor: pointer;
+    &:hover {
+      scale: 1.05;
+    }
+  }
+
 }
