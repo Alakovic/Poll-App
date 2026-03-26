@@ -52,7 +52,7 @@ export class SurveyForm {
   createQuestionGroup() {
     return new FormGroup({
       title: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-      allowMultiple: new FormControl(false, { nonNullable: true }),
+      allow_multiple: new FormControl(false, { nonNullable: true }),
       answers: new FormArray([
         new FormControl('', { nonNullable: true, validators: [Validators.required] }),
         new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -91,6 +91,12 @@ export class SurveyForm {
     this.open = false;
   }
 
+  clearField(controlName: string) {
+    let c = this.surveyForm.get(controlName);
+    c?.setValue('');
+    c?.markAsUntouched();
+  }
+
   onSubmit() {
     if (this.surveyForm.valid) {
       let survey = new SurveyModel(this.surveyForm.value);
@@ -98,7 +104,6 @@ export class SurveyForm {
       this.router.navigate(['']);
     } else {
       this.surveyForm.markAllAsTouched();
-      console.log('Survey not completed ');
     }
   }
 }
