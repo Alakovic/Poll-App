@@ -39,12 +39,14 @@ export class SurveyService {
   surveyListInsertChannel!: RealtimeChannel;
   surveyDetailInsertChannel!: RealtimeChannel;
   answersInsertChannel!: RealtimeChannel;
+  updateAnswersChannel!: RealtimeChannel;
 
   constructor() {
     this.getAllSurveys();
     this.surveyInsertListener();
     this.questionInsertListener();
     this.answerInsertListener();
+    this.updateAnswersListener();
   }
 
   surveyInsertListener() {
@@ -111,10 +113,35 @@ export class SurveyService {
       .subscribe();
   }
 
+  updateAnswersListener() {
+    this.updateAnswersChannel = this.supabase
+      .channel('answers-update-channel')
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'answers' },
+        (payload) => {
+          let survey = this.surveyDetail();
+          let updated = {
+            ...survey,
+            questions: survey.questions.map((q) => ({
+              ...q,
+              answers: q.answers.map((a) =>
+                a.id === payload.new['id'] ? { ...a, votesCount: payload.new['votesCount'] } : a,
+              ),
+            })),
+          };
+
+          this.surveyDetail.set(updated);
+        },
+      )
+      .subscribe();
+  }
+
   ngOnDestroy() {
     this.supabase.removeChannel(this.surveyListInsertChannel);
     this.supabase.removeChannel(this.surveyDetailInsertChannel);
     this.supabase.removeChannel(this.answersInsertChannel);
+    this.supabase.removeChannel(this.updateAnswersChannel);
   }
 
   endingSoonSurveys = computed(() => {
@@ -227,5 +254,31 @@ export class SurveyService {
     if (error) {
       console.error(error);
     }
+  }
+
+  async submitSurvey(selectedAnswers: { [questionId: number]: string[] }) {
+    for (let questionId in selectedAnswers) {
+      let answers = selectedAnswers[questionId];
+      for (let answerText of answers) {
+        await this.increaseVoteCount(Number(questionId), answerText);
+      }
+    }
+  }
+
+  async increaseVoteCount(questionId: number, answerText: string) {
+    let { data, error } = await this.supabase
+      .from('answers')
+      .select('id, votesCount')
+      .eq('questionId', questionId)
+      .eq('text', answerText)
+      .single();
+    if (error || !data) {
+      console.error(error);
+      return;
+    }
+    await this.supabase
+      .from('answers')
+      .update({ votesCount: data.votesCount + 1 })
+      .eq('id', data.id);
   }
 }

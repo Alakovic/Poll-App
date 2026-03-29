@@ -17,6 +17,8 @@
     background: v.$survey-details-bg;
     padding: 30px;
     border-radius: 12px 100px 12px 12px;
+    display: flex;
+    flex-direction: column;
   }
 
   &__published {
@@ -85,7 +87,7 @@
     font-weight: bold;
   }
 
-   &__checkbox {
+  &__checkbox {
     display: none;
     &:checked + .details__custom-checkbox {
       background-color: v.$button-filter_active;

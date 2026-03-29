@@ -41,7 +41,7 @@
               </div>
             }
           </div>
-          <button class="btn btn--inactive">Complete Survey</button>
+          <button class="btn btn--survey" [disabled]="!isSurveyComplete()" (click)="submitSurvey()">Complete survey</button>
         </div>
       </div>
       <div class="details__results"></div>

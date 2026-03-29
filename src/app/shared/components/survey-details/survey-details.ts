@@ -1,4 +1,4 @@
-import { Component,inject,Pipe } from '@angular/core';
+import { Component, inject, Pipe } from '@angular/core';
 import { SurveyService } from '../../services/survey_service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -18,23 +18,34 @@ export class SurveyDetails {
 
   ngOnInit(): void {
     let surveyId = Number(this.route.snapshot.paramMap.get('id'));
-    if(!surveyId) return;
+    if (!surveyId) return;
     this.surveyService.getSurveyWithDetails(surveyId);
   }
 
   onAnswerChange(questionId: number, answer: string, event: any) {
-  const checked = event.target.checked;
-
-  if (!this.selectedAnswers[questionId]) {
-    this.selectedAnswers[questionId] = [];
+    const checked = event.target.checked;
+    if (!this.selectedAnswers[questionId]) {
+      this.selectedAnswers[questionId] = [];
+    }
+    if (checked) {
+      this.selectedAnswers[questionId].push(answer);
+    } else {
+      this.selectedAnswers[questionId] = this.selectedAnswers[questionId].filter(
+        (a) => a !== answer,
+      );
+    }
   }
 
-  if (checked) {
-    this.selectedAnswers[questionId].push(answer);
-  } else {
-    this.selectedAnswers[questionId] =
-      this.selectedAnswers[questionId].filter(a => a !== answer);
+  isSurveyComplete(): boolean {
+    let questions = this.detail().questions;
+    return questions.every((q) => {
+      let answers = this.selectedAnswers[q.id];
+      return answers && answers.length > 0;
+    });
   }
-}
 
+  async submitSurvey() {
+    await this.surveyService.submitSurvey(this.selectedAnswers);
+    this.router.navigate(['/']);
+  }
 }
