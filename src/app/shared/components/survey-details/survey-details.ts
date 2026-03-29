@@ -62,8 +62,10 @@ export class SurveyDetails {
   async submitSurvey() {
     await this.surveyService.submitSurvey(this.selectedAnswers);
     this.isSubmitted = true;
-    setInterval(() => {
+    setTimeout(() => {
       this.router.navigate(['/']);
-    }, 1500);
+    }, 2000);
   }
+
+  
 }
