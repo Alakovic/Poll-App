@@ -2,49 +2,103 @@
   <div class="container">
     <div class="details">
       <div class="details__survey">
-        <div class="details__form">
-          <div class="details__published">
-            <span>Published</span>
-          </div>
-          <div class="details__overline">
-            <p class="details__endsOn">Ends on {{ detail().endDate | date: 'dd.MM.yyyy' }}</p>
-            <p class="details__category">Category: {{ detail().category }}</p>
-          </div>
-          <h1 class="details__title">{{ detail().title }}</h1>
-          <p class="details__description">{{ detail().description }}</p>
-          <div class="details__questions">
-            @for (q of detail().questions; track $index; let i = $index) {
-              <div class="details__question">
-                <p class="details__question-title">
-                  {{ surveyService.getNumber(i) }}. {{ q.title }}
-                </p>
-                @if (q.allow_multiple) {
-                  <p class="details__multipleAnswers">More than one answers are possible.</p>
-                }
-                <div class="details__answers">
-                  @for (a of q.answers; track $index; let j = $index) {
-                    <label class="details__answer">
-                      <input
-                        class="details__checkbox"
-                        [type]="q.allow_multiple ? 'checkbox' : 'radio'"
-                        [name]="'question-' + q.id"
-                        [value]="a.text"
-                        (change)="onAnswerChange(q.id, a.text, $event)"
-                      />
-                      <span class="details__custom-checkbox"></span>
+        @if (!isSubmitted) {
+          <div class="details__form">
+            <div class="details__published">
+              <span>Published</span>
+            </div>
+            <div class="details__overline">
+              <p class="details__endsOn">Ends on {{ detail().endDate | date: 'dd.MM.yyyy' }}</p>
+              <p class="details__category">Category: {{ detail().category }}</p>
+            </div>
+            <h1 class="details__title">{{ detail().title }}</h1>
+            <p class="details__description">{{ detail().description }}</p>
+            <div class="details__questions">
+              @for (q of detail().questions; track $index; let i = $index) {
+                <div class="details__question">
+                  <p class="details__question-title">
+                    {{ surveyService.getNumber(i) }}. {{ q.title }}
+                  </p>
+                  @if (q.allow_multiple) {
+                    <p class="details__multipleAnswers">More than one answers are possible.</p>
+                  }
+                  <div class="details__answers">
+                    @for (a of q.answers; track $index; let j = $index) {
+                      <label class="details__answer">
+                        <input
+                          class="details__checkbox"
+                          [type]="q.allow_multiple ? 'checkbox' : 'radio'"
+                          [name]="'question-' + q.id"
+                          [value]="a.text"
+                          (change)="onAnswerChange(q.id, a.text, $event)"
+                        />
+                        <span class="details__custom-checkbox"></span>
 
-                      <span class="details__letter">{{ surveyService.getLetter(j) }}.</span>
-                      {{ a.text }}
-                    </label>
+                        <span class="details__letter">{{ surveyService.getLetter(j) }}.</span>
+                        {{ a.text }}
+                      </label>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+            <button
+              class="btn btn--survey"
+              [disabled]="!isSurveyComplete()"
+              (click)="submitSurvey()"
+            >
+              Complete survey
+            </button>
+          </div>
+        } @else {
+          <div class="details__submitted">
+            <h2>Thank you! 🎉</h2>
+            <p>Your survey has been successfully submitted.</p>
+          </div>
+        }
+      </div>
+      <div class="details__results">
+        <div class="details__dashboard">
+          <h2 class="details__dashboard-title">
+            Survey results
+            <span class="details__dashboard-title details__dashboard-title--live">LIVE</span>
+          </h2>
+          @if (!hasResults()) {
+            <p class="details__dashboard-description">
+              Results will be shown here after participants complete the survey.
+            </p>
+          }
+          <div class="details__dashboard-live-results">
+            @if (!hasResults()) {
+              <p class="details__dashboard-no-results">There are no answers yet.</p>
+            } @else {
+              @for (q of detail().questions; track $index; let i = $index) {
+                <div class="details__dashboard-question">
+                  <p class="details__dashboard-question-title">
+                    {{ surveyService.getNumber(i) }}. {{ q.title }}
+                  </p>
+                </div>
+                <div class="details__dashboard-answers">
+                  @for (a of q.answers; track $index; let j = $index) {
+                    <div class="details__dashboard-answer">
+                      <span class="details__dashboard-letter">{{
+                        surveyService.getLetter(j)
+                      }}</span>
+                      <div class="details__dashboard-bar">
+                        <div
+                          class="details__dashboard-bar-fill"
+                          [style.width.%]="getPercentage(q, a)"
+                        ></div>
+                      </div>
+                      <span class="details__dashboard-percent">{{ getPercentage(q, a) }}%</span>
+                    </div>
                   }
                 </div>
-              </div>
+              }
             }
           </div>
-          <button class="btn btn--survey" [disabled]="!isSurveyComplete()" (click)="submitSurvey()">Complete survey</button>
         </div>
       </div>
-      <div class="details__results"></div>
     </div>
   </div>
 </section>

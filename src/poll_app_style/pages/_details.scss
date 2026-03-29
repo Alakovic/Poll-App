@@ -2,6 +2,8 @@
 
 .details {
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 20px;
 
   &__survey {
@@ -12,6 +14,17 @@
     position: sticky;
     top: 120px;
   }
+
+  &__submitted {
+    font-size: 18px;
+    color: v.$text-dark;
+    font-weight: bold;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
   &__form {
     width: 100%;
     background: v.$survey-details-bg;
@@ -113,5 +126,80 @@
     border-radius: 3px;
     display: inline-block;
     position: relative;
+  }
+
+  &__dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__dashboard-title {
+    font-size: 30px;
+    font-weight: bold;
+    color: v.$text-dark;
+    padding-top: 70px;
+
+    &--live {
+      color: v.$text-orange-darker;
+    }
+  }
+
+  &__dashboard-description {
+    font-size: 16px;
+    color: v.$text-dark;
+    font-weight: bold;
+    padding-top: 20px;
+    text-align: center;
+    max-width: 300px;
+  }
+
+  &__dashboard-live-results {
+    padding-left: 30px;
+    font-size: 18px;
+    color: v.$text-dark;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__dashboard-question {
+    padding-bottom: 10px;
+    padding-top: 30px;
+    font-size: 16px;
+    color: v.$text-dark;
+    font-weight: bold;
+  }
+
+  &__dashboard-answer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: v.$text-dark;
+    padding-bottom: 5px;
+  }
+
+  &__dashboard-bar {
+    flex: 1;
+    height: 20px;
+    background-color: v.$bar-bg;
+    border-radius: 0 10px 10px 0;
+    overflow: hidden;
+  }
+
+  &__dashboard-bar-fill {
+    height: 100%;
+    background-color: v.$text-orange;
+    transition: width 0.5s ease;
+    border-radius: 0 10px 10px 0;
+  }
+
+  &__dashboard-percent {
+    font-size: 14px;
+    color: v.$text-orange-darker;
+    font-weight: bold;
   }
 }

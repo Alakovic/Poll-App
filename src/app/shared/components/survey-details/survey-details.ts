@@ -15,6 +15,7 @@ export class SurveyDetails {
   surveyService = inject(SurveyService);
   detail = this.surveyService.surveyDetail;
   selectedAnswers: { [questionId: number]: string[] } = {};
+  isSubmitted = false;
 
   ngOnInit(): void {
     let surveyId = Number(this.route.snapshot.paramMap.get('id'));
@@ -44,8 +45,25 @@ export class SurveyDetails {
     });
   }
 
+  hasResults(): boolean {
+    return this.detail().questions.some((q) => q.answers.some((a) => a.votesCount > 0));
+  }
+
+  getTotalVotes(question: any): number {
+    return question.answers.reduce((sum: number, a: any) => sum + a.votesCount, 0);
+  }
+
+  getPercentage(question: any, answer: any): number {
+    let totalVotes = this.getTotalVotes(question);
+    if (totalVotes === 0) return 0;
+    return Math.round((answer.votesCount / totalVotes) * 100);
+  }
+
   async submitSurvey() {
     await this.surveyService.submitSurvey(this.selectedAnswers);
-    this.router.navigate(['/']);
+    this.isSubmitted = true;
+    setInterval(() => {
+      this.router.navigate(['/']);
+    }, 1500);
   }
 }
