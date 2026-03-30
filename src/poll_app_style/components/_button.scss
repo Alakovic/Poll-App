@@ -183,3 +183,28 @@ $btn-icons: (
     }
   }
 }
+
+@media (max-width: 1000px) {
+  .btn {
+    order: 4;
+    align-self: flex-start;
+    &--new {
+      &::after {
+        width: 20px;
+        height: 20px;
+        opacity: 1;
+        margin-left: 10px;
+      }
+
+      &:hover::after {
+        width: 20px;
+        height: 20px;
+        opacity: 1;
+        margin-left: 10px;
+      }
+    }
+    &--primary{
+      background-color: v.$button-primary-hover;
+    }
+  }
+}

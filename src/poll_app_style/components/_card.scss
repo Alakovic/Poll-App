@@ -13,7 +13,7 @@
   &:hover {
     background-color: v.$highlight_card-bg-hover;
     cursor: pointer;
-    >.card__expiration {
+    > .card__expiration {
       background-color: v.$button-primary_hover;
     }
   }
@@ -25,9 +25,9 @@
     min-height: 150px;
     padding: 15px;
     border-radius: 8px 80px 8px 8px;
-      &:hover {
-        background-color: v.$survey_card-bg-hover;
-      }
+    &:hover {
+      background-color: v.$survey_card-bg-hover;
+    }
   }
 
   &__category {
@@ -60,5 +60,31 @@
       align-self: flex-end;
       color: v.$text-dark;
     }
+  }
+}
+
+@media (max-width: 1000px) {
+  .card {
+    &__title {
+      font-size: 28px;
+      padding: 10px 0 20px 0;
+     
+    }
+  }
+}
+
+@media (max-width: 440px) {
+  .card {
+  
+    &__category {
+      font-size: 16px;
+    }
+    &__title {
+      font-size: 22px;
+      padding: 10px 0 15px 0;
+    }
+     &__expiration {
+      font-size: 14px;
+     }
   }
 }

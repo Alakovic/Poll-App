@@ -1,7 +1,7 @@
 @use '../abstracts/variables' as v;
 
 .dashboard {
-  padding-inline: 0 50px;
+  padding-inline:50px;
   display: flex;
   flex-direction: column;
 
@@ -51,5 +51,15 @@
 
   &__overview {
     padding-bottom: 50px;
+  }
+}
+
+
+@media (max-width: 1000px) {
+  .dashboard {
+    padding-inline: 0;
+    &__title {
+      font-size: 60px;
+    }
   }
 }
