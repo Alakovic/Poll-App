@@ -61,5 +61,15 @@
     &__title {
       font-size: 60px;
     }
+    &__endsoon-list {
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
   }
 }

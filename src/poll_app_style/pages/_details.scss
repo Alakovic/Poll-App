@@ -6,6 +6,19 @@
   justify-content: center;
   gap: 20px;
 
+  &__head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__published {
+    background-color: #ffcfa1;
+    border-radius: 0 15px 0 0;
+    padding: 5px 15px 5px 5px;
+    font-weight: bold;
+  }
+
   &__survey {
     flex: 7;
   }
@@ -24,7 +37,7 @@
     flex-direction: column;
     align-items: center;
   }
-  
+
   &__form {
     width: 100%;
     background: v.$survey-details-bg;
@@ -201,5 +214,75 @@
     font-size: 14px;
     color: v.$text-orange-darker;
     font-weight: bold;
+  }
+}
+
+@media (max-width: 800px) {
+  .details {
+    flex-direction: column;
+    align-items: stretch;
+    &__survey,
+    &__results {
+      flex: none;
+      width: 100%;
+    }
+
+    &__dashboard {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    &__dashboard-title {
+      padding-top: 15px;
+    }
+    &__dashboard-live-results {
+      padding-left: 0;
+    }
+    &__dashboard-question {
+      padding-top: 15px;
+    }
+  }
+
+  @media (max-width: 550px) {
+    .details {
+      &__form {
+        padding: 12px;
+      }
+      &__questions {
+        grid-template-columns: 1fr;
+        padding-top: 15px;
+      }
+
+      &__category,
+      &__endsOn,
+      &__description {
+        font-size: 14px;
+      }
+
+      &__title {
+        font-size: 30px;
+      }
+
+      &__question-title {
+        font-size: 16px;
+      }
+
+      &__answer {
+        font-size: 14px;
+      }
+
+      &__dashboard-title {
+        font-size: 24px;
+      }
+    }
+  }
+
+  @media (max-width: 440px) {
+    .details {
+      &__overline {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+      }
+    }
   }
 }

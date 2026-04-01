@@ -1,11 +1,11 @@
-import { Component, inject, Pipe } from '@angular/core';
+import { Component, inject, HostListener } from '@angular/core';
 import { SurveyService } from '../../services/survey_service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-survey-details',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './survey-details.html',
   styleUrls: ['./survey-details.scss'],
 })
@@ -15,12 +15,22 @@ export class SurveyDetails {
   surveyService = inject(SurveyService);
   detail = this.surveyService.surveyDetail;
   selectedAnswers: { [questionId: number]: string[] } = {};
-  isSubmitted = false;
+  isSubmitted: boolean = false;
+  show: boolean = false;
+  isDesktop = window.innerWidth > 800;
 
   ngOnInit(): void {
     let surveyId = Number(this.route.snapshot.paramMap.get('id'));
     if (!surveyId) return;
     this.surveyService.getSurveyWithDetails(surveyId);
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.isDesktop = window.innerWidth > 800;
+    if(this.isDesktop) {
+      this.show = true;
+    }
   }
 
   onAnswerChange(questionId: number, answer: string, event: any) {
@@ -67,5 +77,5 @@ export class SurveyDetails {
     }, 2000);
   }
 
-  
+
 }
