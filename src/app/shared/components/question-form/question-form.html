@@ -12,11 +12,11 @@
     class="survey-form__question"
     formControlName="title"
   />
-  @if (getError('title')) {
-    <div class="survey-form__error">
-      {{ getError('title') }}
-    </div>
-  }
+
+  <div class="survey-form__error survey-form__error--question">
+    {{ getError('title') }}
+  </div>
+
   <div class="survey-form__answers-settings">
     <span class="survey-form__answers-title">Answers</span>
     <label class="survey-form__answers-control">
@@ -46,11 +46,11 @@
             class="survey-form__delete survey-form__delete--answer"
             (click)="removeAnswer(i)"
           ></div>
+          @if (a.touched && a.invalid) {
+            <div class="survey-form__error survey-form__error--answers">Required</div>
+          }
         </div>
       </div>
-      @if (a.touched && a.invalid) {
-        <div class="survey-form__error survey-form__error--answers">Required</div>
-      }
     }
 
     <button type="button" class="btn btn--add" (click)="addAnswer()">

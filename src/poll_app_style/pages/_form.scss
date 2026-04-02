@@ -58,6 +58,7 @@
   &__field {
     display: flex;
     flex-direction: column;
+    position: relative;
     > label {
       font-size: 18px;
       font-weight: bold;
@@ -145,6 +146,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px 80px;
+    position: relative;
   }
 
   &__question-num {
@@ -235,7 +237,7 @@
   &__answers {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
   }
 
   &__answer {
@@ -270,143 +272,155 @@
   }
 
   &__error {
+    position: absolute;
     color: red;
     font-size: 14px;
     padding-top: 5px;
     padding-left: 10px;
+    bottom: -20px;
+    left: 0;
     &--category {
-      padding-left: 40px;
+      bottom: 15px;
     }
 
     &--answers {
-      padding-left: 30px;
+      top: 0px;
+      bottom: -50px;
+    }
+
+    &--question {
+     top: 110px;
+    }
+
+    &--answers{
+      top: 35px;
     }
   }
-}
 
-.toast {
-  position: fixed;
-  bottom: 150px;
-  right: 150px;
-  background: v.$popup-bg;
-  color: v.$text-dark;
-  padding: 16px 24px;
-  border-radius: 8px;
-  font-weight: 500;
-  z-index: 999;
-  transform: translateX(120%);
-  animation: slideIn 0.4s ease forwards;
-  font-size: 20px;
-  font-weight: bold;
-  border-radius: 0 40px 0 0;
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(120%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(-20%);
-    opacity: 1;
-  }
-}
-
-@media (max-width: 1200px) {
-  .survey-form {
-    &__fieldset {
-      &--hori {
-        gap: 20px;
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas:
-          'name name'
-          'date category'
-          'description description';
-      }
-    }
-  }
-}
-
-@media (max-width: 920px) {
-  .survey-form {
-    padding: 30px 40px;
-    &__questions {
-      gap: 20px 40px;
-    }
-  }
-}
-
-@media (max-width: 800px) {
-  .survey-form {
-    &__fieldset {
-      &--hori {
-        gap: 20px;
-        grid-template-columns: 1fr;
-        grid-template-areas:
-          'name '
-          'date'
-          'category'
-          'description';
-      }
-    }
-    &__questions {
-      grid-template-columns: 1fr;
-      gap: 40px;
-    }
-  }
-}
-
-@media (max-width: 550px) {
   .toast {
-    bottom: 70px;
-    right: 50px;
-    font-size: 16px;
-    padding: 12px 20px;
+    position: fixed;
+    bottom: 150px;
+    right: 150px;
+    background: v.$popup-bg;
+    color: v.$text-dark;
+    padding: 16px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    z-index: 999;
+    transform: translateX(120%);
+    animation: slideIn 0.4s ease forwards;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 0 40px 0 0;
   }
-}
 
-@media (max-width: 520px) {
-  .survey-form {
-    padding: 30px 15px;
-    &__title {
-      font-size: 40px;
+  @keyframes slideIn {
+    from {
+      transform: translateX(120%);
+      opacity: 0;
     }
-    &__head {
-      padding-right: 40px;
+    to {
+      transform: translateX(-20%);
+      opacity: 1;
     }
-    &__form {
-      padding: 15px;
+  }
+
+  @media (max-width: 1200px) {
+    .survey-form {
+      &__fieldset {
+        &--hori {
+          gap: 20px;
+          grid-template-columns: 1fr 1fr;
+          grid-template-areas:
+            'name name'
+            'date category'
+            'description description';
+        }
+      }
     }
-    &__wrapper {
-      width: 90%;
+  }
+
+  @media (max-width: 920px) {
+    .survey-form {
+      padding: 30px 40px;
+      &__questions {
+        gap: 20px 40px;
+      }
     }
-    &__question {
+  }
+
+  @media (max-width: 800px) {
+    .survey-form {
+      &__fieldset {
+        &--hori {
+          gap: 20px;
+          grid-template-columns: 1fr;
+          grid-template-areas:
+            'name '
+            'date'
+            'category'
+            'description';
+        }
+      }
+      &__questions {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+  }
+
+  @media (max-width: 550px) {
+    .toast {
+      bottom: 70px;
+      right: 50px;
+      font-size: 16px;
+      padding: 12px 20px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .survey-form {
+      padding: 30px 15px;
+      &__title {
+        font-size: 40px;
+      }
+      &__head {
+        padding-right: 40px;
+      }
+      &__form {
+        padding: 15px;
+      }
+      &__wrapper {
+        width: 90%;
+      }
+      &__question {
+        width: 80%;
+      }
+    }
+  }
+
+  @media (max-width: 400px) {
+    .survey-form {
+      &__answer-input {
+        width: 60%;
+      }
+    }
+    #survey-name,
+    #survey-date {
       width: 80%;
     }
   }
-}
 
-@media (max-width: 400px) {
-  .survey-form {
-    &__answer-input {
-      width: 60%;
+  @media (max-width: 370px) {
+    .survey-form {
+      &__title {
+        font-size: 30px;
+      }
     }
-  }
-  #survey-name,
-  #survey-date {
-    width: 80%;
-  }
-}
 
-@media (max-width: 370px) {
-  .survey-form {
-    &__title {
-      font-size: 30px;
+    .toast {
+      bottom: 110px;
+      right: 0px;
     }
-  }
-
-  .toast {
-    bottom:110px;
-    right: 0px;
   }
 }

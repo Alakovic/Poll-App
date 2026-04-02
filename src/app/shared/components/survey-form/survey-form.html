@@ -17,9 +17,8 @@
               <input type="text" id="survey-name" name="survey-name" formControlName="title" />
               <div class="survey-form__delete" (click)="clearField('title')"></div>
             </div>
-            @if (getErrorMessage('title')) {
-              <div class="survey-form__error">{{ getErrorMessage('title') }}</div>
-            }
+
+            <div class="survey-form__error">{{ getErrorMessage('title') }}</div>
           </div>
           <div class="survey-form__field survey-form__field--date">
             <label for="survey-date">Set end date (optional)</label>
@@ -27,9 +26,7 @@
               <input type="text" id="survey-date" name="survey-date" formControlName="endDate" />
               <div class="survey-form__delete" (click)="clearField('endDate')"></div>
             </div>
-            @if (getErrorMessage('endDate')) {
               <div class="survey-form__error">{{ getErrorMessage('endDate') }}</div>
-            }
           </div>
           <div class="survey-form__field survey-form__field--category">
             <button
@@ -65,11 +62,11 @@
                 }
               </ul>
             }
-            @if (getErrorMessage('category')) {
+          
               <div class="survey-form__error survey-form__error--category">
                 {{ getErrorMessage('category') }}
               </div>
-            }
+            
           </div>
           <div class="survey-form__field survey-form__field--description">
             <label for="description">Describing text (optional)</label>
